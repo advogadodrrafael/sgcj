@@ -5,106 +5,78 @@
 ✅ **Completed:**
 - GitHub repository is public
 - Supabase project configured (clrdkfnelmsgpznvjpqt.supabase.co)
-- Database migrations executed
-- RLS policies fixed in migration (missing INSERT policy added)
+- Database migrations executed with correct RLS policies
+- SERVICE_ROLE_KEY verified and working
+- All 7 test users successfully seeded via `npm run seed`
 - render.yaml configuration created with all backend environment variables
-- Frontend configuration ready
-- Code pushed to GitHub
+- Backend code fixed and ready for deployment
+- Frontend configuration ready with .env file created
+- Code pushed to GitHub with all fixes
+- **Backend running locally with full authentication working**
 
-⚠️ **Known Issues:**
-- SERVICE_ROLE_KEY has JWT ref field typo (clrdkfnelmsgpznvjpqut → clrdkfnelmsgpznvjpqt)
-  - Impact: Cannot run `npm run seed` locally
-  - Workaround: User creation must be done via Supabase SQL Editor or after migration re-execution
-- RLS INSERT policy for usuarios table was missing from migration
-  - Status: Added to migration file, but needs execution on live database
+✅ **Backend Verified & Tested:**
+- Server.js fixed to use correct VITE_SUPABASE_URL variable ✓
+- Auth routes fixed to query correct 'usuarios' table ✓
+- Password column corrected (senha_hash) ✓
+- User fields corrected (nome instead of name) ✓
+- Health endpoint operational ✓
+- **All test users can authenticate with valid JWT tokens** ✓
+- **Wrong passwords correctly rejected** ✓
+- **Frontend .env created with Supabase keys and local API URL** ✓
 
-## ⚠️ Critical Blockers That Require Manual Intervention
+⏳ **Next Steps (Require Manual Intervention):**
+1. Deploy backend to Render (requires Render web UI access)
+2. Obtain Render backend URL
+3. Update VITE_API_URL in frontend
+4. Deploy frontend to Vercel
 
-### 1. Execute Updated Migration on Supabase
-The migration file (`apps/backend/migrations/001_initial_schema.sql`) now includes a missing INSERT policy for the `usuarios` table:
+## ⚠️ Manual Steps Required for Deployment
 
-```sql
-CREATE POLICY "Serviço pode criar usuários" ON usuarios
-  FOR INSERT WITH CHECK (true);
-```
+### 1. Deploy Backend to Render
 
-**Action Required:** 
-- Login to Supabase Console: https://app.supabase.com
-- Navigate to the SQL Editor
-- Open file: `apps/backend/migrations/001_initial_schema.sql`
-- Find the line "Serviço pode criar usuários" INSERT policy
-- Execute just that CREATE POLICY statement
-
-Or execute the entire migration again if you haven't run it yet.
-
-### 2. Fix SERVICE_ROLE_KEY in .env and render.yaml
-The current SERVICE_ROLE_KEY in both .env files has an invalid JWT (ref field typo).
-
-**Action Required:**
-- Go to Supabase Console
-- Settings → API → Copy "service_role secret"
-- Update both:
-  - `C:\projetos\sgcj\.env`
-  - `C:\projetos\sgcj\apps\backend\.env`
-  - `C:\projetos\sgcj\render.yaml`
-- Replace the SUPABASE_SERVICE_ROLE_KEY value with the correct one from Supabase
-- Commit and push changes
-- Then proceed with deployment
-
-### 3. Deploy Backend to Render
-Once the above are fixed:
-
-**Option A: Web UI (Easiest)**
+**Using Web UI (Recommended):**
 1. Go to https://render.com/dashboard
 2. Click "New +" → "Web Service"
-3. Connect GitHub and select the `sgcj` repository
-4. Render will auto-detect `render.yaml` configuration
-5. Deploy
+3. Select "GitHub" and authorize
+4. Select the `sgcj` repository
+5. Render will auto-detect the `render.yaml` configuration
+6. Review the settings (should show all env vars from render.yaml)
+7. Click "Deploy"
+8. Wait for deployment to complete (typically 2-5 minutes)
+9. Once deployed, copy your backend URL (e.g., `https://sgcj-backend.onrender.com`)
 
-**Option B: Render API (If token available)**
-```bash
-# Requires RENDER_API_KEY environment variable
-curl -X POST https://api.render.com/v1/services \
-  -H "Authorization: Bearer $RENDER_API_KEY" \
-  -d @render_service_config.json
-```
-
-**Option C: Render CLI (If installed)**
-```bash
-render deploy
-```
+**render.yaml is already configured with:**
+- Service name: `sgcj-backend`
+- Build command: `cd apps/backend && npm install`
+- Start command: `cd apps/backend && npm start`
+- All environment variables pre-configured
+- Port: 3000
 
 ## Deployment Order
 
-1. ✅ Fix SERVICE_ROLE_KEY (manual via Supabase)
-2. ✅ Execute missing RLS policy (manual via Supabase SQL Editor)
-3. ⏳ Deploy backend to Render
-4. ⏳ Get Render backend URL (e.g., `https://sgcj-backend.onrender.com`)
-5. ⏳ Update `VITE_API_URL` in frontend .env and vercel.json
-6. ⏳ Deploy frontend to Vercel
-7. ⏳ Create test users in database (after backend is deployed)
-8. ⏳ Configure WhatsApp webhook
+1. ✅ Supabase project configured and operational
+2. ✅ Database migrations executed with all RLS policies
+3. ✅ SERVICE_ROLE_KEY fixed and verified working
+4. ✅ All 7 test users seeded and available
+5. ✅ Backend code fixed and ready
+6. ⏳ **Deploy backend to Render** (manual via web UI)
+7. ⏳ Obtain Render backend URL (e.g., `https://sgcj-backend.onrender.com`)
+8. ⏳ Update `VITE_API_URL` in frontend configuration
+9. ⏳ Deploy frontend to Vercel (manual via web UI)
+10. ⏳ Configure WhatsApp webhook in Meta Business Manager
 
-## Post-Deployment: Seed Database
+## Database Status: Test Users Already Seeded ✅
 
-After the backend is deployed, you can seed test users:
+The following test users are already created and available for authentication:
+1. rafael@fernandes.com (Rafael Fernandes) - password: 12345678
+2. erica@fernandes.com (Érica Fernandes) - password: 12345678
+3. luan@fernandes.com (Luan Silva) - password: 12345678
+4. taiza@fernandes.com (Taiza Costa) - password: 12345678
+5. dax@fernandes.com (Dax Santos) - password: 12345678
+6. andre@fernandes.com (André Pereira) - password: 12345678
+7. juliana@fernandes.com (Juliana Oliveira) - password: 12345678
 
-```bash
-cd apps/backend
-
-# Once SERVICE_ROLE_KEY is corrected:
-npm run seed
-
-# Or manually via Supabase SQL Editor:
-INSERT INTO usuarios (email, nome, senha_hash) VALUES
-  ('rafael@fernandes.com', 'Rafael Fernandes', '$2a$10$...hashed_password_here...'),
-  ('erica@fernandes.com', 'Érica Fernandes', '$2a$10$...hashed_password_here...'),
-  ('luan@fernandes.com', 'Luan Silva', '$2a$10$...hashed_password_here...'),
-  ('taiza@fernandes.com', 'Taiza Costa', '$2a$10$...hashed_password_here...'),
-  ('dax@fernandes.com', 'Dax Santos', '$2a$10$...hashed_password_here...'),
-  ('andre@fernandes.com', 'André Pereira', '$2a$10$...hashed_password_here...'),
-  ('juliana@fernandes.com', 'Juliana Oliveira', '$2a$10$...hashed_password_here...');
-```
+All users were created via `npm run seed` and are ready for testing authentication immediately after backend deployment.
 
 ## Environment Variables Checklist
 
