@@ -12,7 +12,7 @@ router.post('/login', async (req, res) => {
 
     // Buscar usuário no Supabase
     const { data: user, error } = await supabase
-      .from('users')
+      .from('usuarios')
       .select('*')
       .eq('email', email)
       .single();
@@ -22,7 +22,7 @@ router.post('/login', async (req, res) => {
     }
 
     // Verificar senha
-    const passwordMatch = await bcryptjs.compare(password, user.password_hash);
+    const passwordMatch = await bcryptjs.compare(password, user.senha_hash);
     if (!passwordMatch) {
       return res.status(401).json({ error: 'Senha incorreta' });
     }
@@ -34,7 +34,7 @@ router.post('/login', async (req, res) => {
       { expiresIn: '7d' }
     );
 
-    res.json({ token, user: { id: user.id, name: user.name, email: user.email, role: user.role } });
+    res.json({ token, user: { id: user.id, nome: user.nome, email: user.email } });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -47,8 +47,8 @@ router.post('/register', async (req, res) => {
     const passwordHash = await bcryptjs.hash(password, 10);
 
     const { data, error } = await supabase
-      .from('users')
-      .insert([{ name, email, password_hash: passwordHash, role }])
+      .from('usuarios')
+      .insert([{ nome: name, email, senha_hash: passwordHash }])
       .select();
 
     if (error) throw error;
