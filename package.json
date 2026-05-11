@@ -1,0 +1,19 @@
+{
+  "name": "sg-fernandes-advocacia",
+  "version": "1.0.0",
+  "description": "Sistema de Gestão de Jornada do Cliente - SG Fernandes Advocacia",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "install:all": "npm install && cd apps/web && npm install && cd ../mobile && npm install",
+    "dev": "node apps/backend/server.js",
+    "dev:web": "cd apps/web && npm run dev",
+    "dev:mobile": "cd apps/mobile && npx expo start",
+    "build": "cd apps/web && npm run build",
+    "deploy": "cd apps/web && npm run build && vercel deploy --prod"
+  },
+  "workspaces": [
+    "apps/*"
+  ],
+  "devDependencies": {}
+}
