@@ -16,8 +16,8 @@
     "apps/*"
   ],
   "dependencies": {
-    "@supabase/supabase-js": "^2.38.0",
-    "jsonwebtoken": "^9.1.0",
+    "@supabase/supabase-js": "^2.40.0",
+    "jsonwebtoken": "^9.0.0",
     "bcryptjs": "^2.4.3"
   },
   "devDependencies": {}
