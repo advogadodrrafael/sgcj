@@ -1,0 +1,63 @@
+╔════════════════════════════════════════════════════════════════╗
+║     SGCJ - STATUS DE DEPLOYMENT                               ║
+║     Data: 2026-05-11                                           ║
+╚════════════════════════════════════════════════════════════════╝
+
+✅ PRONTO (O QUE FOI FEITO):
+  ✓ Código backend (Express.js)
+  ✓ Código frontend (React + Vite)
+  ✓ Integração WhatsApp completa
+  ✓ Database schema SQL
+  ✓ Dependências npm instaladas
+  ✓ Arquivo .env criado
+  ✓ Scripts de seed (usuários teste)
+  ✓ Documentação completa
+
+📋 VOCÊ PRECISA FAZER (5 CREDENCIAIS):
+  
+  1. SUPABASE (https://supabase.com/dashboard)
+     □ Criar projeto "sgcj-production"
+     □ Copiar: VITE_SUPABASE_URL
+     □ Copiar: VITE_SUPABASE_ANON_KEY
+     □ Copiar: SUPABASE_SERVICE_ROLE_KEY
+     □ Executar SQL migration
+  
+  2. JWT SECRET
+     □ Gerar chave aleatória (PowerShell)
+     □ Copiar: JWT_SECRET
+  
+  3. WHATSAPP (https://business.facebook.com)
+     □ Copiar: WHATSAPP_API_TOKEN
+     □ Copiar: WHATSAPP_PHONE_ID
+     □ Gerar: WHATSAPP_VERIFY_TOKEN
+  
+  4. FRONTEND URL
+     □ Deploy backend no Render
+     □ Copiar URL do Render
+     □ Copiar: VITE_API_URL
+  
+  5. GITHUB (https://github.com)
+     □ Criar repositório
+     □ Push do código
+     □ Conectar Render
+     □ Conectar Vercel
+
+🗂️ ARQUIVOS IMPORTANTES:
+  
+  📄 COMECE_AQUI.md ........... LEIA ISSO PRIMEIRO!
+  📄 GUIA_RAPIDO.md ........... Instruções detalhadas
+  📄 .env ..................... Preencha com credenciais
+  📁 apps/backend/ ............ Backend Node.js pronto
+  📁 apps/web/ ................ Frontend React pronto
+  📄 apps/backend/migrations/ . SQL para criar banco
+  📄 apps/backend/scripts/seed.js . Criar usuários teste
+
+⏱️ TEMPO ESTIMADO: ~30 minutos
+
+PRÓXIMO PASSO:
+  1. Abra o arquivo COMECE_AQUI.md
+  2. Siga as 5 etapas
+  3. Preencha o .env com as credenciais
+
+🚀 Você consegue! Bora lá!
+
