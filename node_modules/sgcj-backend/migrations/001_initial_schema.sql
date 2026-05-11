@@ -142,6 +142,11 @@ ALTER TABLE alertas_sla ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Usuários podem visualizar a si mesmos" ON usuarios
   FOR SELECT USING (id = auth.uid());
 
+-- Serviço pode inserir usuários (necessário para seed)
+-- IMPORTANTE: Esta política permite inserts via SERVICE_ROLE_KEY durante seed
+CREATE POLICY "Serviço pode criar usuários" ON usuarios
+  FOR INSERT WITH CHECK (true);
+
 -- Usuários podem ver apenas clientes que possuem
 CREATE POLICY "Usuários podem visualizar seus próprios clientes" ON clientes
   FOR SELECT USING (usuario_id = auth.uid());
