@@ -1,43 +1,14 @@
 services:
   - type: web
     name: sgcj-backend
-    env: node
+    runtime: node
     buildCommand: cd apps/backend && npm install
     startCommand: cd apps/backend && npm start
-    plan: free
-    healthCheckPath: /api/health
-    region: ohio
-
     envVars:
       - key: VITE_SUPABASE_URL
-        value: https://clrdkfnelmsgpznvjpqt.supabase.co
-
-      - key: VITE_SUPABASE_ANON_KEY
-        value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNscmRrZm5lbG1zZ3B6bnZqcHF0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg1MTIzNDUsImV4cCI6MjA5NDA4ODM0NX0.oaop_8vcBsXga7Ov6oNqpRv5qVTB2YWr_H7Zzid4pnA
-
+        sync: false
       - key: SUPABASE_SERVICE_ROLE_KEY
-        value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNscmRrZm5lbG1zZ3B6bnZqcHV0Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3ODUxMjM0NSwiZXhwIjoyMDk0MDg4MzQ1fQ.pQ2BZRSqCNCaYEtPwvc31cTOrrpDNKZouL2RE-5Rmjw
-
-      - key: API_PORT
-        value: "3000"
-
-      - key: NODE_ENV
-        value: production
-
+        sync: false
       - key: JWT_SECRET
-        value: YTYxOTExYWEtZTNhNi00MzQ0LWJmOTYtOGM4Njc0OTllY2Y4
-
-      - key: SYNC_INTERVAL
-        value: "2000"
-
-      - key: WHATSAPP_API_TOKEN
-        value: temp_token_awaiting_activation
-
-      - key: WHATSAPP_PHONE_ID
-        value: "1343627187530079"
-
-      - key: WHATSAPP_NUMERO_EMPRESA
-        value: "5521999999999"
-
-      - key: WHATSAPP_VERIFY_TOKEN
-        value: MDRkYjI5NWQtMWRlOC00ZWVjLTk0NmQtYzE5MjIwMDI4MzNj
+        sync: false
+    region: oregon
