@@ -8,10 +8,19 @@ export default async function handler(req, res) {
   }
 
   try {
-    const supabase = createClient(
-      process.env.VITE_SUPABASE_URL,
-      process.env.SUPABASE_SERVICE_ROLE_KEY
-    );
+    const supabaseUrl = process.env.VITE_SUPABASE_URL;
+    const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+    if (!supabaseUrl || !supabaseKey) {
+      console.error('Missing environment variables:', {
+        supabaseUrl: !!supabaseUrl,
+        supabaseKey: !!supabaseKey,
+        allEnv: Object.keys(process.env).filter(k => k.includes('SUPABASE') || k.includes('VITE'))
+      });
+      return res.status(500).json({ error: 'Missing environment variables' });
+    }
+
+    const supabase = createClient(supabaseUrl, supabaseKey);
 
     const { email, password } = req.body;
 
