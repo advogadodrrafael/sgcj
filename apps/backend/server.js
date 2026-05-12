@@ -5,6 +5,7 @@ import { createClient } from '@supabase/supabase-js';
 import authRoutes from './routes/auth.js';
 import clientRoutes from './routes/clients.js';
 import syncRoutes from './routes/sync.js';
+import whatsappRoutes from './routes/whatsapp.js';
 
 dotenv.config();
 
@@ -25,6 +26,7 @@ export const supabase = createClient(
 app.use('/api/auth', authRoutes);
 app.use('/api/clients', clientRoutes);
 app.use('/api/sync', syncRoutes);
+app.use('/api/whatsapp', whatsappRoutes);
 
 // Health check
 app.get('/health', (req, res) => {
